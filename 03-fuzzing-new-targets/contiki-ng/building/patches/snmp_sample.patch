@@ -46,7 +46,7 @@ index dbc638f05..fe41108a1 100644
 +    packet_end = packet + sizeof(packet) - 1;
 +    packet_len = 0;
 +
-+    snmp_engine((void *)data, len, packet_end, &packet_len);
++    snmp_engine((void *)(data + 15), len, packet_end, &packet_len);
 +}
 +
  PROCESS(snmp_server_process, "SNMP Server");

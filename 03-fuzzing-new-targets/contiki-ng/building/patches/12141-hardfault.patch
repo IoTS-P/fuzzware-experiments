@@ -1,0 +1,38 @@
+diff --git a/arch/cpu/cc2538/startup-gcc.c b/arch/cpu/cc2538/startup-gcc.c
+index bde8d1488..e9f1ce397 100644
+--- a/arch/cpu/cc2538/startup-gcc.c
++++ b/arch/cpu/cc2538/startup-gcc.c
+@@ -50,6 +50,7 @@ extern int main(void);
+ void reset_handler(void);
+ void nmi_handler(void);
+ void default_handler(void);
++void hardfault_handler(void);
+ 
+ /* System Handler and ISR prototypes implemented elsewhere */
+ void clock_isr(void); /* SysTick Handler */
+@@ -111,7 +112,7 @@ void(*const vectors[])(void) =
+   (void (*)(void))((unsigned long)stack + sizeof(stack)),   /* Stack pointer */
+   reset_handler,              /* Reset handler */
+   nmi_handler,                /* The NMI handler */
+-  default_handler,            /* The hard fault handler */
++  hardfault_handler,          /* The hard fault handler */
+   default_handler,            /* 4 The MPU fault handler */
+   default_handler,            /* 5 The bus fault handler */
+   default_handler,            /* 6 The usage fault handler */
+diff --git a/examples/snmp-server/snmp-server.c b/examples/snmp-server/snmp-server.c
+index dbc638f05..0a985618d 100644
+--- a/examples/snmp-server/snmp-server.c
++++ b/examples/snmp-server/snmp-server.c
+@@ -32,6 +32,12 @@
+ #include "contiki.h"
+ #include "snmp-api.h"
+ 
++#include <stdio.h>
++void hardfault_handler(void)
++{
++  printf("HARD FAULT\n");
++  *(uint32_t *)(0x400db3fc) ^= 1;
++}
+ /*---------------------------------------------------------------------------*/
+ PROCESS_NAME(snmp_server_process);
+ AUTOSTART_PROCESSES(&snmp_server_process);

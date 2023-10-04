@@ -1,0 +1,13 @@
+diff --git a/os/net/mac/ble/ble-l2cap.c b/os/net/mac/ble/ble-l2cap.c
+index fb755cc85..7fae11d88 100644
+--- a/os/net/mac/ble/ble-l2cap.c
++++ b/os/net/mac/ble/ble-l2cap.c
+@@ -453,7 +453,7 @@ input_l2cap_frame_flow_channel(l2cap_channel_t *channel, uint8_t *data, uint16_t
+ static void
+ input(void)
+ {
+-  uint8_t *data = (uint8_t *)packetbuf_dataptr();
++  uint8_t *data = (uint8_t *)(packetbuf_dataptr() + 15);
+   uint16_t len = packetbuf_datalen();
+   uint8_t frame_type = packetbuf_attr(PACKETBUF_ATTR_FRAME_TYPE);
+   uint16_t channel_id;

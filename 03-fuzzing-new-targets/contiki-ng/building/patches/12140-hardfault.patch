@@ -1,0 +1,38 @@
+diff --git a/arch/cpu/cc2538/startup-gcc.c b/arch/cpu/cc2538/startup-gcc.c
+index bde8d1488..e9f1ce397 100644
+--- a/arch/cpu/cc2538/startup-gcc.c
++++ b/arch/cpu/cc2538/startup-gcc.c
+@@ -50,6 +50,7 @@ extern int main(void);
+ void reset_handler(void);
+ void nmi_handler(void);
+ void default_handler(void);
++void hardfault_handler(void);
+ 
+ /* System Handler and ISR prototypes implemented elsewhere */
+ void clock_isr(void); /* SysTick Handler */
+@@ -111,7 +112,7 @@ void(*const vectors[])(void) =
+   (void (*)(void))((unsigned long)stack + sizeof(stack)),   /* Stack pointer */
+   reset_handler,              /* Reset handler */
+   nmi_handler,                /* The NMI handler */
+-  default_handler,            /* The hard fault handler */
++  hardfault_handler,          /* The hard fault handler */
+   default_handler,            /* 4 The MPU fault handler */
+   default_handler,            /* 5 The bus fault handler */
+   default_handler,            /* 6 The usage fault handler */
+diff --git a/examples/hello-world/hello-world.c b/examples/hello-world/hello-world.c
+index e6d452d9e..c5d9a6198 100644
+--- a/examples/hello-world/hello-world.c
++++ b/examples/hello-world/hello-world.c
+@@ -40,6 +40,12 @@
+ #include "contiki.h"
+ 
+ #include <stdio.h> /* For printf() */
++
++void hardfault_handler(void)
++{
++	printf("HARD FAULT\n");
++	*(uint32_t *)(0x400db3fc) ^= 1;
++}
+ /*---------------------------------------------------------------------------*/
+ PROCESS(hello_world_process, "Hello world process");
+ AUTOSTART_PROCESSES(&hello_world_process);
