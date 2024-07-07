@@ -1,0 +1,11 @@
+diff --git a/examples/mqtt-client/Makefile b/examples/mqtt-client/Makefile
+index 15d487701..a5bb99706 100644
+--- a/examples/mqtt-client/Makefile
++++ b/examples/mqtt-client/Makefile
+@@ -11,5 +11,6 @@ MODULES += $(CONTIKI_NG_APP_LAYER_DIR)/mqtt
+ MODULES_REL += arch/platform/$(TARGET)
+ 
+ PLATFORMS_ONLY = cc26x0-cc13x0 cc2538dk openmote zoul native simplelink
++CFLAGS += -g
+ 
+ include $(CONTIKI)/Makefile.include

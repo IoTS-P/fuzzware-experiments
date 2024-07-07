@@ -1,0 +1,33 @@
+diff --git a/os/net/ipv6/sicslowpan.c b/os/net/ipv6/sicslowpan.c
+index 789fdae0b..acd883d50 100644
+--- a/os/net/ipv6/sicslowpan.c
++++ b/os/net/ipv6/sicslowpan.c
+@@ -79,7 +79,7 @@
+ /* Log configuration */
+ #include "sys/log.h"
+ #define LOG_MODULE "6LoWPAN"
+-#define LOG_LEVEL LOG_LEVEL_6LOWPAN
++#define LOG_LEVEL LOG_LEVEL_DBG
+ 
+ #define GET16(ptr,index) (((uint16_t)((ptr)[index] << 8)) | ((ptr)[(index) + 1]))
+ #define SET16(ptr,index,value) do {     \
+@@ -306,8 +306,10 @@ static int
+ store_fragment(uint8_t index, uint8_t offset)
+ {
+   int i;
++  LOG_WARN("store_fragment - datalen: %d, hdr_len: %d\n", packetbuf_datalen(), packetbuf_hdr_len);
+   for(i = 0; i < SICSLOWPAN_FRAGMENT_BUFFERS; i++) {
+     if(frag_buf[i].len == 0) {
++      LOG_WARN("frag_buf 0\n");
+       /* copy over the data from packetbuf into the fragment buffer and store offset and len */
+       frag_buf[i].offset = offset; /* frag offset */
+       frag_buf[i].len = packetbuf_datalen() - packetbuf_hdr_len;
+@@ -329,7 +331,7 @@ add_fragment(uint16_t tag, uint16_t frag_size, uint8_t offset)
+   int i;
+   int len;
+   int8_t found = -1;
+-
++  LOG_WARN("add_fragment - tag: %d offset: %d\n", tag, offset);
+   if(offset == 0) {
+     /* This is a first fragment - check if we can add this */
+     for(i = 0; i < SICSLOWPAN_REASS_CONTEXTS; i++) {

@@ -1,0 +1,13 @@
+diff --git a/arch/cpu/cc2538/cc2538-conf.h b/arch/cpu/cc2538/cc2538-conf.h
+index d34c3dee5..e3006e3d7 100644
+--- a/arch/cpu/cc2538/cc2538-conf.h
++++ b/arch/cpu/cc2538/cc2538-conf.h
+@@ -228,7 +228,7 @@
+ #endif
+ 
+ #ifndef CC2538_RF_CONF_RX_USE_DMA
+-#define CC2538_RF_CONF_RX_USE_DMA            1 /**< RF RX over DMA */
++#define CC2538_RF_CONF_RX_USE_DMA            0 /**< RF RX over DMA */
+ #endif
+ /** @} */
+ /*---------------------------------------------------------------------------*/

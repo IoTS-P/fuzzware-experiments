@@ -1,0 +1,14 @@
+diff --git a/arch/cpu/cc2538/dev/cc2538-rf.c b/arch/cpu/cc2538/dev/cc2538-rf.c
+index 24a3c636f..ed6de124e 100644
+--- a/arch/cpu/cc2538/dev/cc2538-rf.c
++++ b/arch/cpu/cc2538/dev/cc2538-rf.c
+@@ -729,6 +729,9 @@ transmit(unsigned short transmit_len)
+ static int
+ send(const void *payload, unsigned short payload_len)
+ {
++  // test 
++  return 0;
++  // test end
+   prepare(payload, payload_len);
+   return transmit(payload_len);
+ }
