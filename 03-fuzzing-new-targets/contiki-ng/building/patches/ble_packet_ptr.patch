@@ -1,0 +1,36 @@
+diff --git a/os/net/mac/ble/ble-l2cap.c b/os/net/mac/ble/ble-l2cap.c
+index fb755cc85..045a4d76b 100644
+--- a/os/net/mac/ble/ble-l2cap.c
++++ b/os/net/mac/ble/ble-l2cap.c
+@@ -51,7 +51,7 @@
+ /*---------------------------------------------------------------------------*/
+ #include "sys/log.h"
+ #define LOG_MODULE "L2CAP"
+-#define LOG_LEVEL LOG_LEVEL_MAC
++#define LOG_LEVEL LOG_LEVEL_DBG
+ /*---------------------------------------------------------------------------*/
+ #define MS_TO_CLOCK_SECONDS(X)    ((int)(((double)((X)*CLOCK_SECOND)) / 1000.0))
+ /*---------------------------------------------------------------------------*/
+@@ -422,9 +422,10 @@ input_l2cap_frame_flow_channel(l2cap_channel_t *channel, uint8_t *data, uint16_t
+   if(channel->rx_buffer.sdu_length == 0) {
+     /* handle first fragment */
+     memcpy(&frame_len, &data[0], 2);
++    LOG_INFO("frame_len %d\n", frame_len);
+     memcpy(&channel->rx_buffer.sdu_length, &data[4], 2);
+     payload_len = frame_len - 2;
+-
++    LOG_INFO("memcpy start %lu\n", (uint32_t)channel->rx_buffer.sdu);
+     memcpy(channel->rx_buffer.sdu, &data[6], payload_len);
+     channel->rx_buffer.current_index = payload_len;
+   } else {
+@@ -453,8 +454,8 @@ input_l2cap_frame_flow_channel(l2cap_channel_t *channel, uint8_t *data, uint16_t
+ static void
+ input(void)
+ {
+-  uint8_t *data = (uint8_t *)packetbuf_dataptr();
+-  uint16_t len = packetbuf_datalen();
++  uint8_t *data = (uint8_t *)(packetbuf_dataptr() + 15);
++  uint16_t len = packetbuf_datalen() - 15;
+   uint8_t frame_type = packetbuf_attr(PACKETBUF_ATTR_FRAME_TYPE);
+   uint16_t channel_id;
+   l2cap_channel_t *channel;
